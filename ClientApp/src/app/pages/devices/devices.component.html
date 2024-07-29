@@ -1,0 +1,36 @@
+<h2 class="content-block">Данные счетчиков</h2>
+
+<div class="content-block">
+  <dx-data-grid [dataSource]="devices"
+                [allowColumnResizing]="true"
+                [columnAutoWidth]="true"
+                [columnHidingEnabled]="true"
+                [showBorders]="true"
+                (onRowRemoved)="deleteDevice($event)"
+                (onRowInserted)="createDevice($event)"
+                (onRowUpdated)="updateDevice($event)"
+  >
+    <dxo-filter-row [visible]="true"></dxo-filter-row>
+    <dxi-column [hidingPriority]="1" width="300" dataField="id" caption="Серийный номер"></dxi-column>
+    <dxi-column dataField="name" caption="Название"></dxi-column>
+    <dxo-master-detail
+      [enabled]="true"
+      template="masterDetail">
+    </dxo-master-detail>
+    <div *dxTemplate="let masterDetailItem of 'masterDetail'">
+      <app-measurements [deviceId]="masterDetailItem.data.id"></app-measurements>
+    </div>
+    <dxo-paging [pageSize]="pageSize"></dxo-paging>
+    <dxo-pager
+      [showPageSizeSelector]="true"
+      [allowedPageSizes]="[10, 25, 50, 100]"
+    ></dxo-pager>
+    <dxo-editing
+      mode="popup"
+      [allowUpdating]="true"
+      [allowDeleting]="true"
+      [allowAdding]="true"
+    >
+    </dxo-editing>
+  </dx-data-grid>
+</div>

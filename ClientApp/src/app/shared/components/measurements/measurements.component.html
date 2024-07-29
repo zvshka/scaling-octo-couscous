@@ -1,0 +1,36 @@
+<div class="dx-field" style="max-width: 500px; margin-bottom: 20px">
+  <div class="dx-field-label">Дата измерений</div>
+  <div class="dx-field-value">
+    <dx-date-box
+      [value]="searchDate"
+      pickerType="calendar"
+      [inputAttr]="{ 'aria-label': 'Date Picker' }"
+      (onValueChanged)="selectDate($event)"
+    >
+    </dx-date-box>
+  </div>
+</div>
+<dx-data-grid
+  [dataSource]="measurements"
+  [allowColumnResizing]="true"
+  [columnAutoWidth]="true"
+  [columnHidingEnabled]="true"
+  [showBorders]="true"
+>
+  <dxi-column alignment="center" width="120" caption="Время" dataField="measurementDate" cellTemplate="dateTemplate"></dxi-column>
+  <dxi-column alignment="center" caption="Активная, приём, кВт" dataField="activeInput" cellTemplate="measurementTemplate"></dxi-column>
+  <dxi-column alignment="center" caption="Активная, отдача кВт" dataField="activeOutput" cellTemplate="measurementTemplate"></dxi-column>
+  <dxi-column alignment="center" caption="Реактивная, приём, квар" dataField="reactiveInput" cellTemplate="measurementTemplate"></dxi-column>
+  <dxi-column alignment="center" caption="Реактивная, отдача, квар" dataField="reactiveOutput" cellTemplate="measurementTemplate"></dxi-column>
+  <dxo-paging [pageSize]="10"></dxo-paging>
+  <dxo-pager
+    [showPageSizeSelector]="true"
+    [allowedPageSizes]="[10, 25, 50, 100]"
+  ></dxo-pager>
+  <div *dxTemplate="let templateData of 'dateTemplate'">
+    <p>{{dayjs(templateData.value).subtract(30, "minute").format("HH:mm").toString()}} - {{dayjs(templateData.value).format("HH:mm").toString()}}</p>
+  </div>
+  <div *dxTemplate="let templateData of 'measurementTemplate'">
+    <p>{{templateData.value.toFixed(2)}}</p>
+  </div>
+</dx-data-grid>

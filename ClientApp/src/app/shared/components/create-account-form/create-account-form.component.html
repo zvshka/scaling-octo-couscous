@@ -1,0 +1,55 @@
+<form class="create-account-form" (submit)="onSubmit($event)">
+  <dx-form [formData]="formData" [disabled]="loading">
+
+    <dxi-item dataField="email" editorType="dxTextBox"
+      [editorOptions]="{ stylingMode: 'filled', placeholder: 'Email', mode: 'email' }">
+      <dxi-validation-rule type="required" message="Email обязателен"></dxi-validation-rule>
+      <dxi-validation-rule type="email" message="Email введен неверно"></dxi-validation-rule>
+      <dxo-label [visible]="false"></dxo-label>
+    </dxi-item>
+
+    <dxi-item dataField="username" editorType="dxTextBox"
+              [editorOptions]="{ stylingMode: 'filled', placeholder: 'Имя пользователя', mode: 'text' }">
+      <dxi-validation-rule type="required" message="Имя пользователя обязателено"></dxi-validation-rule>
+      <dxo-label [visible]="false"></dxo-label>
+    </dxi-item>
+
+    <dxi-item dataField="password" editorType="dxTextBox"
+      [editorOptions]="{ stylingMode: 'filled', placeholder: 'Пароль', mode: 'password' }">
+      <dxi-validation-rule type="required" message="Пароль обязателен"></dxi-validation-rule>
+      <dxo-label [visible]="false"></dxo-label>
+    </dxi-item>
+
+    <dxi-item dataField="confirmedPassword" editorType="dxTextBox"
+      [editorOptions]="{ stylingMode: 'filled', placeholder: 'Потдверждение пароля', mode: 'password' }">
+      <dxi-validation-rule type="required" message="Пароль обязателен"></dxi-validation-rule>
+      <dxi-validation-rule type="custom" message="Пароли не совпадают" [validationCallback]="confirmPassword">
+      </dxi-validation-rule>
+      <dxo-label [visible]="false"></dxo-label>
+    </dxi-item>
+
+    <dxi-item itemType="button">
+      <dxo-button-options width="100%" type="default" [useSubmitBehavior]="true" [template]="'createAccountTemplate'">
+      </dxo-button-options>
+    </dxi-item>
+
+    <dxi-item>
+      <div class="login-link">
+        Есть аккаунт? <a routerLink="/login">Войти</a>
+      </div>
+    </dxi-item>
+
+    <ng-container *dxTemplate="let item of 'createAccountTemplate'">
+      <div>
+        <span class="dx-button-text">
+          <ng-container *ngIf="loading; else notLoading">
+            <dx-load-indicator width="24px" height="24px" [visible]="true"></dx-load-indicator>
+          </ng-container>
+
+          <ng-template #notLoading>Создать новый аккаунт</ng-template>
+        </span>
+      </div>
+    </ng-container>
+
+  </dx-form>
+</form>
